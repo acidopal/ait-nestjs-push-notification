@@ -6,12 +6,24 @@ export interface PushNotificationTargetFilter {
   operator?: 'AND' | 'OR';
 }
 
+interface PushNotificationMessageParam {
+  title?: string;
+  body?: string;
+  imageUrl?: string;
+  data?: Record<string, any>;
+}
+
 export abstract class PushNotificationMessageDTO {
   /// payloads
   public title?: string;
-  public body: string;
+  public body?: string;
   public imageUrl?: string;
   public data?: Record<string, any>;
+
+  validate() {
+    if (!this.body && !this.data)
+      throw new Error('Push Notification body or data should not be empty');
+  }
 }
 
 export class PushNotificationMessageFilterDTO extends PushNotificationMessageDTO {
@@ -19,7 +31,7 @@ export class PushNotificationMessageFilterDTO extends PushNotificationMessageDTO
   constructor(
     params: {
       filters: Array<PushNotificationTargetFilter>;
-    } & PushNotificationMessageDTO,
+    } & PushNotificationMessageParam,
   ) {
     super();
     Object.assign(this, params);
@@ -31,7 +43,7 @@ export class PushNotificationMessageTopicsDTO extends PushNotificationMessageDTO
   constructor(
     params: {
       topics: string[];
-    } & PushNotificationMessageDTO,
+    } & PushNotificationMessageParam,
   ) {
     super();
     Object.assign(this, params);
@@ -43,7 +55,7 @@ export class PushNotificationMessageDevicesDTO extends PushNotificationMessageDT
   constructor(
     params: {
       device_ids: string[];
-    } & PushNotificationMessageDTO,
+    } & PushNotificationMessageParam,
   ) {
     super();
     Object.assign(this, params);

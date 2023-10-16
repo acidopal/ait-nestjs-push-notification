@@ -5,6 +5,9 @@ import { PushNotificationMessageDTO } from '../dto';
  * for example: `PNFirebaseAdapter`
  */
 export declare abstract class PushNotificationAdapter {
+    /** send message from adapter */
     abstract send(message: PushNotificationMessageDTO): Promise<any>;
+    /** close adapter, may destroy any client/other running instances */
+    abstract close(): any;
 }
 //# sourceMappingURL=push-notification.adapter.d.ts.map

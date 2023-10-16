@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PushNotificationMessageDevicesDTO = exports.PushNotificationMessageTopicsDTO = exports.PushNotificationMessageFilterDTO = exports.PushNotificationMessageDTO = void 0;
 class PushNotificationMessageDTO {
+    validate() {
+        if (!this.body && !this.data)
+            throw new Error('Push Notification body or data should not be empty');
+    }
 }
 exports.PushNotificationMessageDTO = PushNotificationMessageDTO;
 class PushNotificationMessageFilterDTO extends PushNotificationMessageDTO {
@@ -25,4 +29,4 @@ class PushNotificationMessageDevicesDTO extends PushNotificationMessageDTO {
     }
 }
 exports.PushNotificationMessageDevicesDTO = PushNotificationMessageDevicesDTO;
-//# sourceMappingURL=push-notification-message.interface.js.map
+//# sourceMappingURL=push-notification-message.dto.js.map

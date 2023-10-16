@@ -5,20 +5,50 @@ import { PushNotificationAdapter } from './adapters';
 
 @Injectable()
 export class PushNotificationService {
+  private adapters: Record<string, PushNotificationAdapter>;
+  private defaultProvider: string;
   constructor(
     @Inject(PushNotificationConfig)
-    private readonly config: PushNotificationConfig,
+    config: PushNotificationConfig,
   ) {
-    if (this.config.adapters[this.config.defaultProvider] == null)
-      this.invalidProvider();
+    this.adapters = { ...config.adapters };
+    this.defaultProvider = config.defaultProvider;
+    if (this.adapters[this.defaultProvider] == null) this.invalidProvider();
   }
 
+  /**
+   * add / replace PN adapter
+   * name - adapter name
+   * builder - function to create adapter if adapter should be created
+   */
+  putAdapter(
+    provider: string,
+    builder: () => PushNotificationAdapter,
+    replace = false,
+  ) {
+    if (this.adapters[provider]) {
+      if (!replace) {
+        return;
+      }
+      this.adapters[provider].close();
+    }
+    this.adapters[provider] = builder();
+  }
+
+  /** remove certain adapter from service */
+  removeAdapter(provider: string) {
+    this.adapters[provider].close();
+    this.adapters[provider] = null;
+  }
+
+  /** get adapter with provider name, if empty, use defaultProvider */
   getAdapter<T extends PushNotificationAdapter = PushNotificationAdapter>(
     provider?: string,
   ): T {
-    return this.config.adapters[provider ?? this.config.defaultProvider] as T;
+    return this.adapters[provider ?? this.defaultProvider] as T;
   }
 
+  /** send message using certain provider, or defaultProvider if not provided */
   async send(message: PushNotificationMessageDTO, provider?: string) {
     const adapter = this.getAdapter(provider);
     if (adapter == null) {
@@ -27,6 +57,7 @@ export class PushNotificationService {
     return adapter.send(message);
   }
 
+  /** throw provider error because no provider found */
   invalidProvider() {
     throw new Error('Invalid Push Notification Provider');
   }

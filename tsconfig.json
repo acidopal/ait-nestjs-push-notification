@@ -3,11 +3,7 @@
     "experimentalDecorators": true,
     "target": "es2017",
     "module": "commonjs",
-    "lib": [
-      "es2017",
-      "es7",
-      "es6"
-    ],
+    "lib": ["es2017", "es7", "es6"],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -21,21 +17,10 @@
     "emitDecoratorMetadata": true,
     "baseUrl": "./",
     "paths": {
-      "@ait/push-notification": [
-        "libs/push-notification/src"
-      ],
-      "@ait/push-notification/*": [
-        "libs/push-notification/src/*"
-      ]
+      "@ait/push-notification": ["libs/push-notification/src"],
+      "@ait/push-notification/*": ["libs/push-notification/src/*"]
     }
   },
-  "include": [
-    "libs/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "test",
-    "**/*spec.ts"
-  ]
+  "include": ["libs/**/*"],
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "**/examples/**"]
 }

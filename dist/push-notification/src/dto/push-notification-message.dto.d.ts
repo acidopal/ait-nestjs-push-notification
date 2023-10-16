@@ -5,28 +5,36 @@ export interface PushNotificationTargetFilter {
     value: string;
     operator?: 'AND' | 'OR';
 }
-export declare abstract class PushNotificationMessageDTO {
+interface PushNotificationMessageParam {
     title?: string;
-    body: string;
+    body?: string;
     imageUrl?: string;
     data?: Record<string, any>;
+}
+export declare abstract class PushNotificationMessageDTO {
+    title?: string;
+    body?: string;
+    imageUrl?: string;
+    data?: Record<string, any>;
+    validate(): void;
 }
 export declare class PushNotificationMessageFilterDTO extends PushNotificationMessageDTO {
     filters: Array<PushNotificationTargetFilter>;
     constructor(params: {
         filters: Array<PushNotificationTargetFilter>;
-    } & PushNotificationMessageDTO);
+    } & PushNotificationMessageParam);
 }
 export declare class PushNotificationMessageTopicsDTO extends PushNotificationMessageDTO {
     topics: string[];
     constructor(params: {
         topics: string[];
-    } & PushNotificationMessageDTO);
+    } & PushNotificationMessageParam);
 }
 export declare class PushNotificationMessageDevicesDTO extends PushNotificationMessageDTO {
     device_ids: string[];
     constructor(params: {
         device_ids: string[];
-    } & PushNotificationMessageDTO);
+    } & PushNotificationMessageParam);
 }
-//# sourceMappingURL=push-notification-message.interface.d.ts.map
+export {};
+//# sourceMappingURL=push-notification-message.dto.d.ts.map

@@ -27,19 +27,28 @@ exports.PNFirebaseAdapter = void 0;
 const dto_1 = require("../dto");
 const push_notification_adapter_1 = require("./push-notification.adapter");
 const firebase = __importStar(require("firebase-admin"));
+/**
+ * Adapter for Firebase Push Notification.\
+ * Available Message Types:
+ * - PushNotificationMessageDevicesDTO -> send message to certain device ids
+ * - PushNotificationMessageTopicsDTO -> send message to certain FCM topics
+ */
 class PNFirebaseAdapter extends push_notification_adapter_1.PushNotificationAdapter {
-    constructor({ init = true, serviceAccount }) {
+    constructor({ init = true, serviceAccount, name, destroyOnClose, }) {
         super();
         if (init) {
             this.app = firebase.initializeApp({
                 credential: serviceAccount
                     ? firebase.credential.cert(serviceAccount)
                     : firebase.credential.applicationDefault(),
-            });
+            }, name);
+            this.name = name;
         }
         else {
-            this.app = firebase.app();
+            this.app = firebase.app(name);
         }
+        this.init = init;
+        this.destroyOnClose = destroyOnClose;
     }
     async send(message) {
         const baseMessage = {
@@ -50,13 +59,28 @@ class PNFirebaseAdapter extends push_notification_adapter_1.PushNotificationAdap
             },
             data: message.data,
         };
+        const queues = [];
         if (message instanceof dto_1.PushNotificationMessageDevicesDTO) {
-            return this.app.messaging().sendEachForMulticast(Object.assign({ tokens: message.device_ids }, baseMessage));
+            const chunkSize = 500;
+            for (let i = 0; i < message.device_ids.length; i += chunkSize) {
+                const chunkTokens = message.device_ids.slice(i, i + chunkSize);
+                queues.push(this.app.messaging().sendEachForMulticast(Object.assign({ tokens: chunkTokens }, baseMessage)));
+            }
+            return await Promise.all(queues);
         }
         else if (message instanceof dto_1.PushNotificationMessageTopicsDTO) {
-            return this.app.messaging().sendEach(message.topics.map((topic) => (Object.assign({ topic: topic }, baseMessage))));
+            const chunkSize = 500;
+            for (let i = 0; i < message.topics.length; i += chunkSize) {
+                queues.push(this.app.messaging().sendEach(message.topics.slice(i, i + chunkSize).map((topic) => (Object.assign({ topic: topic }, baseMessage)))));
+            }
+            return await Promise.all(queues);
         }
         throw new Error(`Message type '${message.constructor.name}' is not supported`);
+    }
+    close() {
+        if (this.name && this.init && this.destroyOnClose) {
+            this.app.delete();
+        }
     }
 }
 exports.PNFirebaseAdapter = PNFirebaseAdapter;

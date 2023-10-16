@@ -1,1 +1,1 @@
-export * from './push-notification-message.interface';
+export * from './push-notification-message.dto';

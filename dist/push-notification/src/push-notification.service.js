@@ -17,13 +17,35 @@ const common_1 = require("@nestjs/common");
 const interfaces_1 = require("./interfaces");
 let PushNotificationService = class PushNotificationService {
     constructor(config) {
-        this.config = config;
-        if (this.config.adapters[this.config.defaultProvider] == null)
+        this.adapters = Object.assign({}, config.adapters);
+        this.defaultProvider = config.defaultProvider;
+        if (this.adapters[this.defaultProvider] == null)
             this.invalidProvider();
     }
-    getAdapter(provider) {
-        return this.config.adapters[provider !== null && provider !== void 0 ? provider : this.config.defaultProvider];
+    /**
+     * add / replace PN adapter
+     * name - adapter name
+     * builder - function to create adapter if adapter should be created
+     */
+    putAdapter(provider, builder, replace = false) {
+        if (this.adapters[provider]) {
+            if (!replace) {
+                return;
+            }
+            this.adapters[provider].close();
+        }
+        this.adapters[provider] = builder();
     }
+    /** remove certain adapter from service */
+    removeAdapter(provider) {
+        this.adapters[provider].close();
+        this.adapters[provider] = null;
+    }
+    /** get adapter with provider name, if empty, use defaultProvider */
+    getAdapter(provider) {
+        return this.adapters[provider !== null && provider !== void 0 ? provider : this.defaultProvider];
+    }
+    /** send message using certain provider, or defaultProvider if not provided */
     async send(message, provider) {
         const adapter = this.getAdapter(provider);
         if (adapter == null) {
@@ -31,6 +53,7 @@ let PushNotificationService = class PushNotificationService {
         }
         return adapter.send(message);
     }
+    /** throw provider error because no provider found */
     invalidProvider() {
         throw new Error('Invalid Push Notification Provider');
     }
