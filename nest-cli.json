@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true
+  },
+  "projects": {
+    "push-notification": {
+      "type": "library",
+      "root": "libs/push-notification",
+      "entryFile": "index",
+      "sourceRoot": "libs/push-notification/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/push-notification/tsconfig.lib.json"
+      }
+    }
+  }
+}
