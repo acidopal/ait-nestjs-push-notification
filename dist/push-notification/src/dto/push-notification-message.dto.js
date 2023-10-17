@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PushNotificationMessageDevicesDTO = exports.PushNotificationMessageTopicsDTO = exports.PushNotificationMessageFilterDTO = exports.PushNotificationMessageDTO = void 0;
+exports.PushNotificationMessageUserDTO = exports.PushNotificationMessageDevicesDTO = exports.PushNotificationMessageTopicsDTO = exports.PushNotificationMessageFilterDTO = exports.PushNotificationMessageDTO = void 0;
 class PushNotificationMessageDTO {
     validate() {
         if (!this.body && !this.data)
@@ -29,4 +29,11 @@ class PushNotificationMessageDevicesDTO extends PushNotificationMessageDTO {
     }
 }
 exports.PushNotificationMessageDevicesDTO = PushNotificationMessageDevicesDTO;
+class PushNotificationMessageUserDTO extends PushNotificationMessageDTO {
+    constructor(params) {
+        super();
+        Object.assign(this, params);
+    }
+}
+exports.PushNotificationMessageUserDTO = PushNotificationMessageUserDTO;
 //# sourceMappingURL=push-notification-message.dto.js.map

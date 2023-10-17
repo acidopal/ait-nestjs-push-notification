@@ -1,18 +1,22 @@
 import {
-  PNFirebaseAdapter,
+  PNOneSignalAdapter,
   PushNotificationMessageTopicsDTO,
   PushNotificationService,
 } from '../';
+import oneSignalConfig from './pn-onesignal-env.local';
 
 enum Providers {
-  firebase = 'firebase',
+  onesignal = 'onesignal',
 }
 
 async function main() {
   const service = new PushNotificationService({
-    defaultProvider: Providers.firebase,
+    defaultProvider: Providers.onesignal,
     adapters: {
-      [Providers.firebase]: new PNFirebaseAdapter({}),
+      [Providers.onesignal]: new PNOneSignalAdapter({
+        appKey: oneSignalConfig.appKey,
+        appId: oneSignalConfig.appId,
+      }),
     },
   });
 
@@ -28,7 +32,7 @@ async function main() {
           },
           imageUrl: 'https://placehold.co/400x200/000000/FFFFFF.png',
         }),
-        Providers.firebase,
+        Providers.onesignal,
       ),
     ),
   );

@@ -33,4 +33,6 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-service-account.local.json
+*.local.json
+*.local.ts
+*.local.js

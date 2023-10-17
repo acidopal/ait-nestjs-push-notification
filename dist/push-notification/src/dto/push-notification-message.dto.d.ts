@@ -36,5 +36,11 @@ export declare class PushNotificationMessageDevicesDTO extends PushNotificationM
         device_ids: string[];
     } & PushNotificationMessageParam);
 }
+export declare class PushNotificationMessageUserDTO extends PushNotificationMessageDTO {
+    user_ids: string[];
+    constructor(params: {
+        user_ids: string[];
+    } & PushNotificationMessageParam);
+}
 export {};
 //# sourceMappingURL=push-notification-message.dto.d.ts.map

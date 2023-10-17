@@ -16,4 +16,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./push-notification.adapter"), exports);
 __exportStar(require("./pn-firebase.adapter"), exports);
+__exportStar(require("./pn-onesignal.adapter"), exports);
 //# sourceMappingURL=index.js.map

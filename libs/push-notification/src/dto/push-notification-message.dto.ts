@@ -61,3 +61,15 @@ export class PushNotificationMessageDevicesDTO extends PushNotificationMessageDT
     Object.assign(this, params);
   }
 }
+
+export class PushNotificationMessageUserDTO extends PushNotificationMessageDTO {
+  public user_ids: string[];
+  constructor(
+    params: {
+      user_ids: string[];
+    } & PushNotificationMessageParam,
+  ) {
+    super();
+    Object.assign(this, params);
+  }
+}

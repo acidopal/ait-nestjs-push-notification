@@ -31,10 +31,12 @@ const firebase = __importStar(require("firebase-admin"));
  * Adapter for Firebase Push Notification.\
  * Available Message Types:
  * - PushNotificationMessageDevicesDTO -> send message to certain device ids
+ * - PushNotificationMessageUserDTO -> send message to certain FCM user id,
+ * appending userPrefix with input user_id as 1 topic name, for example `external_id-1`
  * - PushNotificationMessageTopicsDTO -> send message to certain FCM topics
  */
 class PNFirebaseAdapter extends push_notification_adapter_1.PushNotificationAdapter {
-    constructor({ init = true, serviceAccount, name, destroyOnClose, }) {
+    constructor({ init = true, serviceAccount, name, destroyOnClose, userPrefix = 'external_id-', }) {
         super();
         if (init) {
             this.app = firebase.initializeApp({
@@ -49,6 +51,7 @@ class PNFirebaseAdapter extends push_notification_adapter_1.PushNotificationAdap
         }
         this.init = init;
         this.destroyOnClose = destroyOnClose;
+        this.userPrefix = userPrefix;
     }
     async send(message) {
         const baseMessage = {
@@ -72,6 +75,13 @@ class PNFirebaseAdapter extends push_notification_adapter_1.PushNotificationAdap
             const chunkSize = 500;
             for (let i = 0; i < message.topics.length; i += chunkSize) {
                 queues.push(this.app.messaging().sendEach(message.topics.slice(i, i + chunkSize).map((topic) => (Object.assign({ topic: topic }, baseMessage)))));
+            }
+            return await Promise.all(queues);
+        }
+        else if (message instanceof dto_1.PushNotificationMessageUserDTO) {
+            const chunkSize = 500;
+            for (let i = 0; i < message.user_ids.length; i += chunkSize) {
+                queues.push(this.app.messaging().sendEach(message.user_ids.slice(i, i + chunkSize).map((userId) => (Object.assign({ topic: this.userPrefix + userId }, baseMessage)))));
             }
             return await Promise.all(queues);
         }
