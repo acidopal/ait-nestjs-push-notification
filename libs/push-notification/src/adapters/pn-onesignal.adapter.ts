@@ -73,7 +73,7 @@ export class PNOneSignalAdapter extends PushNotificationAdapter {
       for (let i = 0; i < message.topics.length; i++) {
         const notification = this.constructBaseMessage(message);
         notification.filters = [
-          { field: 'tags', key: message.topics[i], relation: 'exists' },
+          { field: 'tag', key: message.topics[i], relation: 'exists' },
         ];
         queues.push(this.app.createNotification(notification));
       }
