@@ -7,8 +7,9 @@ export declare class PushNotificationService {
     constructor(config: PushNotificationConfig);
     /**
      * add / replace PN adapter
-     * name - adapter name
+     * provider - adapter provider name
      * builder - function to create adapter if adapter should be created
+     * replace - when true, if provider already exist, will be replaced
      */
     putAdapter(provider: string, builder: () => PushNotificationAdapter, replace?: boolean): void;
     /** remove certain adapter from service */

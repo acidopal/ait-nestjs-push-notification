@@ -96,9 +96,12 @@ class PNOneSignalAdapter extends push_notification_adapter_1.PushNotificationAda
             return await Promise.all(queues);
         }
         else if (message instanceof dto_1.PushNotificationMessageUserDTO) {
-            const notification = this.constructBaseMessage(message);
-            notification.include_external_user_ids = message.user_ids;
-            queues.push(this.app.createNotification(notification));
+            const chunkSize = 2000;
+            for (let i = 0; i < message.user_ids.length; i += chunkSize) {
+                const notification = this.constructBaseMessage(message);
+                notification.include_external_user_ids = message.user_ids.slice(i, i + chunkSize);
+                queues.push(this.app.createNotification(notification));
+            }
             return await Promise.all(queues);
         }
         else if (message instanceof dto_1.PushNotificationMessageFilterDTO) {

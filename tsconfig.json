@@ -22,5 +22,5 @@
     }
   },
   "include": ["libs/**/*"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts", "**/examples/**"]
+  "exclude": ["node_modules", "dist", "test"]
 }
