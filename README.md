@@ -7,7 +7,7 @@ This library contains common implementation of sending push notifications throug
 
 ### How to install
 ```
-yarn add https://github.com/PT-Akar-Inti-Teknologi/ait-nestjs-push-notification.git#tags/v0.0.1
+yarn add https://github.com/PT-Akar-Inti-Teknologi/ait-nestjs-push-notification.git#tags/v0.0.2
 ```
 
 ## Registering Service
