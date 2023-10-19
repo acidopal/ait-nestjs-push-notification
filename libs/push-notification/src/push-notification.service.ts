@@ -18,8 +18,9 @@ export class PushNotificationService {
 
   /**
    * add / replace PN adapter
-   * name - adapter name
+   * provider - adapter provider name
    * builder - function to create adapter if adapter should be created
+   * replace - when true, if provider already exist, will be replaced
    */
   putAdapter(
     provider: string,
