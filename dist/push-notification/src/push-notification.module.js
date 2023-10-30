@@ -27,10 +27,8 @@ let PushNotificationModule = PushNotificationModule_1 = class PushNotificationMo
     }
 };
 PushNotificationModule = PushNotificationModule_1 = __decorate([
-    (0, common_1.Module)({
-        providers: [push_notification_service_1.PushNotificationService],
-        exports: [push_notification_service_1.PushNotificationService],
-    })
+    (0, common_1.Global)(),
+    (0, common_1.Module)({})
 ], PushNotificationModule);
 exports.PushNotificationModule = PushNotificationModule;
 //# sourceMappingURL=push-notification.module.js.map

@@ -7,7 +7,7 @@ This library contains common implementation of sending push notifications throug
 
 ### How to install
 ```
-yarn add https://github.com/PT-Akar-Inti-Teknologi/ait-nestjs-push-notification.git#tags/v0.0.2
+yarn add https://github.com/PT-Akar-Inti-Teknologi/ait-nestjs-push-notification.git#tags/v0.0.3
 ```
 
 ## Registering Service
@@ -32,7 +32,8 @@ For Example:
 ```
 
 ## Using Service
-You can use the service by injecting it to your existing service.
+You can use the service by injecting it to your existing service. 
+No need to provide in feature module, already been a global scope service
 ```ts
 @Injectable()
 export class YourService {

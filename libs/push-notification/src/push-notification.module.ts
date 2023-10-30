@@ -1,11 +1,9 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { PushNotificationService } from './push-notification.service';
 import { PushNotificationConfig } from './interfaces';
 
-@Module({
-  providers: [PushNotificationService],
-  exports: [PushNotificationService],
-})
+@Global()
+@Module({})
 export class PushNotificationModule {
   static register(options: PushNotificationConfig): DynamicModule {
     return {
