@@ -1,5 +1,6 @@
 import {
   PNFirebaseAdapter,
+  PushNotificationMessageDevicesDTO,
   PushNotificationMessageTopicsDTO,
   PushNotificationService,
 } from '../';
@@ -20,13 +21,17 @@ async function main() {
     JSON.stringify(
       await service.send(
         new PushNotificationMessageTopicsDTO({
-          topics: ['all'],
-          title: 'Title',
-          body: 'Test',
+          topics: ['external_id-110002'],
+          title: 'Perubahan Prioritas Tugas',
+          body: 'Prioritas tugas Engineering Service (MEPC) berubah menjadi High',
           data: {
-            test: 'test',
+            is_read: 'false',
+            work_order_number: '0000110',
+            description:
+              'Prioritas tugas Engineering Service (MEPC) berubah menjadi High',
+            title: 'Perubahan Prioritas Tugas',
+            type: 'UPDATE',
           },
-          imageUrl: 'https://placehold.co/400x200/000000/FFFFFF.png',
         }),
         Providers.firebase,
       ),

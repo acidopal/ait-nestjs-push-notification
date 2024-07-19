@@ -59,10 +59,10 @@ let PushNotificationService = class PushNotificationService {
         throw new Error('Invalid Push Notification Provider');
     }
 };
-PushNotificationService = __decorate([
+exports.PushNotificationService = PushNotificationService;
+exports.PushNotificationService = PushNotificationService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(interfaces_1.PushNotificationConfig)),
     __metadata("design:paramtypes", [interfaces_1.PushNotificationConfig])
 ], PushNotificationService);
-exports.PushNotificationService = PushNotificationService;
 //# sourceMappingURL=push-notification.service.js.map
