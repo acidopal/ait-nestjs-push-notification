@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@onesignal/node-onesignal": "^2.0.1-beta2",
-    "firebase-admin": "^11.11.0",
+    "firebase-admin": "^12.4.0",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
